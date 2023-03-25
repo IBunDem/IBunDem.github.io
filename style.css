@@ -1,0 +1,29 @@
+body {
+    padding: 15px;
+}
+
+.perfume-count-form {
+    width: 30%;
+}
+
+#perfume-count-input {
+    max-width: 200px;
+}
+
+.forms-wrapper {
+    display: flex;
+    flex-grow: 0;
+}
+
+.perfume-input-table-wrapper {
+    width: 35%;
+}
+
+.variables-forms {
+    width: 45%;
+    margin-left: 15%;
+}
+
+.results-wrapper { 
+    margin-top: 15px;
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfume calculation</title>
+    <link href="bootstrap-5.2.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="mb-3">
+        <label for="perfume-count-input" class="form-label">Количество парфюмов</label>
+        <input type="number" name="rowsCount" class="form-control" id="perfume-count-input" min="1" max="100">
+    </div>
+
+    <div class="forms-wrapper">        
+        <div class="perfume-input-table-wrapper"> </div>
+        <div class="variables-forms">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Доставка</span>
+                <input type="number" id="inputDeliveryCost" class="form-control" placeholder="Стоимость" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Объем флакона</span>
+                <input type="number" id="inputBottleVolume" class="form-control" placeholder="Объем" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Стоимость флакона</span>
+                <input type="number" id="inputBottleCost" class="form-control" placeholder="Стоимость" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Стоимость флакона пробника</span>
+                <input type="number" id="inputTesterCost" class="form-control" placeholder="Стоимость" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Стоимость разбавителя (спирта)</span>
+                <input type="number" id="inputDiluentCost" class="form-control" placeholder="Стоимость 1мл" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Доля масла</span>
+                <input type="number" id="inputPartVolume" class="form-control" placeholder="Ко-во мл масла на 1 флакон" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Стоимость брендовых допов</span>
+                <input type="number" id="inputBrandCost" class="form-control" placeholder="Стоимость на 1 флакон" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Стоимость продажи</span>
+                <input type="number" id="inputSell" class="form-control" placeholder="За сколько продаём 1 флакон" aria-describedby="basic-addon1">
+            </div>
+        </div>
+    </div>
+    <div class="results-wrapper">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Стоимость закупа парфюмов</th>
+                    <th scope="col">Ко-во флаконов</th>
+                    <th scope="col">Стоимость флаконов</th>
+                    <th scope="col">Ко-во пробников</th>
+                    <th scope="col">Стоимость флаконов пробников</th>
+                    <th scope="col">Объем разбавителя (спирта)</th>
+                    <th scope="col">Стоимость разбавителя</th>
+                    <th scope="col">Соотношение масло/разбавитель</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="result-cost">-</td>
+                    <td id="result-countbottle">-</td>
+                    <td id="result-costbottle">-</td>
+                    <td id="result-couttester">-</td>
+                    <td id="result-costtester">-</td>
+                    <td id="result-volumediluent">-</td>
+                    <td id="result-diluentCost">-</td>
+                    <td id="result-ratio">5/10</td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Себестоимость 1 готового парфюма</th>
+                    <th scope="col">Суммарно затрат</th>
+                    <th scope="col">Стоимость полной продажи</th>
+                    <th scope="col">Прибыль</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="result-selfcost">1</td>
+                    <td id="result-fullsellcost">1</td>
+                    <td id="result-income">1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script src="bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</html>
