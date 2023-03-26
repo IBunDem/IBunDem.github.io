@@ -242,9 +242,30 @@ inputSell.addEventListener('change', function (e) {
 });
 
 // Add event recalculate to ever change of any input
-const inputs = Array.from(document.querySelectorAll('input'));
-inputs.forEach((inputElement) => {
+let inputs = Array.from(document.querySelectorAll('input'));
+
+const calculateInputs = inputs.filter((i) => !Array.from(i.classList).includes('no-calculate'));
+calculateInputs.forEach((inputElement) => {
     inputElement.addEventListener('change', (e) => calculate());
 });
 
+//#endregion
+
+//#region Загрузка данных с json-файлами
+    function download(data) {
+        let a = document.querySelector("#json-download-a");
+        a.href = "data:application/json," + encodeURIComponent(data);
+        a.click();
+    }
+
+    const downloadButton = document.querySelector('#download-json-btn');
+    downloadButton.addEventListener('click', (e) => {
+        const json = JSON.stringify(perfumTableData, null, '\t');
+        download(json);
+    });
+
+    const uploadButton = document.querySelector('#upload-json-btn');
+    uploadButton.addEventListener('click', (e) => {
+        
+    });
 //#endregion

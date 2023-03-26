@@ -11,7 +11,7 @@
 <body>
     <div class="mb-3">
         <label for="perfume-count-input" class="form-label">Количество парфюмов</label>
-        <input type="number" name="rowsCount" class="form-control" id="perfume-count-input" min="1" max="100">
+        <input type="number" name="rowsCount" class="form-control no-calculate" id="perfume-count-input" min="1" max="100">
     </div>
 
     <div class="forms-wrapper">        
@@ -99,6 +99,17 @@
             </tbody>
         </table>
     </div>
+
+    <div class="data-file-loading-buttons-wrapper">
+        <button class="btn btn-primary mt-3" id="download-json-btn">Скачать данные JSON-файлом</button>
+
+        <div class="upload-file-wrapper mt-3">
+            <input class="form-control no-calculate mb-3" type="file">
+            <button class="btn btn-secondary" id="upload-json-btn">Загрузить данные из JSON-файла</button>
+        </div>
+    </div>
+
+    <a download="data.json" style="display:none;" id="json-download-a"></a>
 </body>
 <script src="bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
 <script src="script.js"></script>
