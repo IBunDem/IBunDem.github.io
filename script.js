@@ -95,7 +95,7 @@ function updateInputTable(rowsCount) {
 }
 
 function displayToElement(id, text) {
-    if (isNaN(text)) document.querySelector('#'+id).textContent = '-';
+    if (typeof text !== "string" && isNaN(text)) document.querySelector('#'+id).textContent = '-';
     else document.querySelector('#'+id).textContent = text;
 }
 
@@ -111,12 +111,16 @@ function calculate() {
     console.log('Calculate...');
     console.log(perfumTableData);
     */
+
     var r = perfumTableData.results;
     var vars = perfumTableData.variables;
+    var rowsCount = perfumTableData.rowsCount;
 
+    //#region Первая таблица
     // Стоимость закупа парфюмов
     r.resultCost = 0    
     for (const [i, row] of Object.entries(perfumTableData.inputTable)) {
+        if (!row.cost) continue;
         r.resultCost += row.cost;
     }
     // умножаем сумму стоимости 1 мл всех парфюмов на объем закупа (50мл по стандарту)
@@ -124,7 +128,7 @@ function calculate() {
     displayToElement('result-cost', r.resultCost);
 
     // Ко-во флаконов
-    r.countBottle = Math.floor(orderVolume / vars.partVolume) * perfumTableData.rowsCount;
+    r.countBottle = Math.floor(orderVolume / vars.partVolume) * rowsCount;
     displayToElement('result-countbottle', r.countBottle);
     
     // Стоимость флаконов
@@ -132,7 +136,8 @@ function calculate() {
     displayToElement('result-costbottle', r.costBottle);
     
     // Ко-во пробников
-    r.countTester = Math.round(1.5 * perfumTableData.rowsCount);
+    // r.countTester = Math.round(1.5 * perfumTableData.rowsCount);
+    r.countTester = rowsCount;
     displayToElement('result-couttester', r.countTester);
 
     // Стоимость пробников
@@ -140,7 +145,7 @@ function calculate() {
     displayToElement('result-costtester', r.costTester);
 
     // Объем разбавителя (спирта)
-    r.volumeDiluent = (vars.bottleVolume - vars.partVolume) * perfumTableData.rowsCount;
+    r.volumeDiluent = (vars.bottleVolume - vars.partVolume) * rowsCount;
     displayToElement('result-volumediluent', r.volumeDiluent);
 
     // Стоимость разбавителя
@@ -150,6 +155,31 @@ function calculate() {
     // Соотношение масло/разбавитель
     r.ratio = `${vars.partVolume}/${vars.bottleVolume - vars.partVolume}`;
     displayToElement('result-ratio', r.ratio);
+
+    // Стоимость брендирования
+    r.branding = vars.brandCost * r.countBottle;
+    displayToElement('result-branding', r.branding);
+
+    //#endregion
+
+    //#region Вторая таблица
+    // Себестоимость 1 флакона
+    r.selfCost = (vars.deliveryCost + r.resultCost + r.costBottle + r.costTester + r.diluentCost + vars.brandCost) / r.countBottle;
+    displayToElement('result-selfcost', r.selfCost);
+
+    // Сумарно затрат
+    r.sumExpenses = vars.deliveryCost + r.resultCost + r.costBottle + r.costTester + r.diluentCost + r.branding;
+    displayToElement('result-sumexpenses', r.sumExpenses);
+
+    // Стоимость полной продажи
+    r.SellCost = r.countBottle * vars.sell;
+    displayToElement('result-fullsellcost', r.SellCost);
+
+    // Прибыль
+    r.income = r.SellCost - r.sumExpenses;
+    displayToElement('result-income', r.income);
+
+    //#endregion
 }
 
 //#region  Слушатели событий ввода переменных
@@ -210,10 +240,11 @@ inputSell.addEventListener('change', function (e) {
 
     perfumTableData.variables.sell = value;
 });
-//#endregion
 
 // Add event recalculate to ever change of any input
 const inputs = Array.from(document.querySelectorAll('input'));
 inputs.forEach((inputElement) => {
     inputElement.addEventListener('change', (e) => calculate());
 });
+
+//#endregion
