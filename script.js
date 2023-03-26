@@ -44,6 +44,7 @@ function updateInputTable(rowsCount) {
 
         const inputCode = document.createElement('input');
         inputCode.classList.add('form-control');
+        inputCode.id = 'input_code_'+i;
         inputCode.placeholder='Код';
         inputCode.addEventListener('change', function(e) { 
             const value = e.target.value;
@@ -53,6 +54,7 @@ function updateInputTable(rowsCount) {
 
         const inputName = document.createElement('input');
         inputName.classList.add('form-control');
+        inputName.id = 'input_name_'+i;
         inputName.placeholder='Наименование';
         inputName.addEventListener('change', function(e) { 
             const value = e.target.value;
@@ -62,6 +64,7 @@ function updateInputTable(rowsCount) {
 
         const inputCost = document.createElement('input');
         inputCost.type = 'number';
+        inputCost.id = 'input_cost_'+i;
         inputCost.classList.add('form-control');
         inputCost.placeholder='Стоимость';
         inputCost.addEventListener('change', function(e) { 
@@ -258,6 +261,52 @@ calculateInputs.forEach((inputElement) => {
         a.click();
     }
 
+    function setValueForInputById(id, value, trigger=true) {
+        const input = document.querySelector('#'+id);
+        input.value = value;
+        if (trigger) input.dispatchEvent(new Event('change'));
+    }
+
+    function fillFieldsFromObject(data) {
+
+        // Количество строк таблицы
+        const perfumeCountInput = document.querySelector('#perfume-count-input');
+        perfumeCountInput.value = data.rowsCount;
+        perfumeCountInput.dispatchEvent(new Event('change'));
+
+        // Заполняем таблицу
+        for (let i=1; i<data.rowsCount+1; i++) {
+            const row = data.inputTable[i];
+            if (row.code)
+            setValueForInputById('input_code_'+i, row.code);
+            if (row.name)
+            setValueForInputById('input_name_'+i, row.name);
+            if (row.cost)
+            setValueForInputById('input_cost_'+i, row.cost, true);
+        }
+
+        const vars = data.variables;
+
+        //Переменные
+        // Доставка
+        setValueForInputById('inputDeliveryCost', vars.deliveryCost);
+        // Объем флакона
+        setValueForInputById('inputBottleVolume', vars.bottleVolume);
+        // Стоимость флакона
+        setValueForInputById('inputBottleCost', vars.bottleCost);
+        // Стоимость флакона пробника
+        setValueForInputById('inputTesterCost', vars.testerCost);
+        // Стоимость разбавителя (спирта)
+        setValueForInputById('inputDiluentCost', vars.diluentCost);
+        // Доля масла
+        setValueForInputById('inputPartVolume', vars.partVolume);
+        // Стоимость брендовых допов
+        setValueForInputById('inputBrandCost', vars.brandCost);
+        // Стоимость продажи
+        setValueForInputById('inputSell', vars.sell, true);
+
+    }
+
     const downloadButton = document.querySelector('#download-json-btn');
     downloadButton.addEventListener('click', (e) => {
         const json = JSON.stringify(perfumTableData, null, '\t');
@@ -266,6 +315,15 @@ calculateInputs.forEach((inputElement) => {
 
     const uploadButton = document.querySelector('#upload-json-btn');
     uploadButton.addEventListener('click', (e) => {
-        
+        const inputFileField = document.querySelector('#upload-data-file-input');
+        const file = inputFileField.files[0];
+        const reader = new FileReader();
+        reader.onload = function() {
+            const result = reader.result;
+            const data = JSON.parse(result);
+            fillFieldsFromObject(data);
+        };
+
+        reader.readAsText(file);
     });
 //#endregion
