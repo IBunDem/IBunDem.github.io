@@ -38,7 +38,6 @@ class App {
     // Заполняет все поля (таблица, переменные) из хранящегося data
     // также триггерит calculate с каждым полем
     fillFields() {
-        // var rowsCount = this.table.rowsCount;
         // Количество строк таблицы
         this.setRowsCountInputValue(this.data.rows.length);
 
@@ -65,11 +64,7 @@ class App {
 
     // Обновление данных
     updateData(self, data) {
-        // self.data.rows = data.inputTable;
-        // self.data.vars = data.variables;
-        // self.data.results = data.results;
         this.data = data;
-        // this.setRowsCountInputValue(data.rows.length);
         self.fillFields();
     }
 
