@@ -2,12 +2,20 @@ body {
     padding: 15px;
 }
 
-.perfume-count-form {
-    width: 30%;
+.input-table-controllers-wrapper {
+    display: flex;
+    max-width: 40%;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
+
 
 #perfume-count-input {
     max-width: 200px;
+}
+
+#add-input-row-btn {
+    flex-basis: 150px;
 }
 
 .forms-wrapper {
