@@ -12,7 +12,13 @@ class App {
 
     // Callback, вызываемый при добавлении строчки в таблицу
     onAddRow() {
+        // this.data.rows.push({code: '', name: '', cost: ''});
+    }
+
+    // Инициирует создание пустой строки в таблице ввода
+    addEmptyInputRow() {
         this.data.rows.push({code: '', name: '', cost: ''});
+        this.table.addEmptyRow();
     }
 
     // Устанавливает значение для поля ввода количества строк
@@ -64,7 +70,9 @@ class App {
 
     // Обновление данных
     updateData(self, data) {
-        this.data = data;
+        this.data.rows = data.rows;
+        this.data.vars = data.vars;
+        this.data.results = data.results;
         self.fillFields();
     }
 
@@ -142,6 +150,7 @@ class App {
 
     // Инициализирует события DOM-элементов
     initEvents() {
+        const self = this;
         //#region countInput
         const countInput = document.querySelector('#perfume-count-input');
         countInput.value = 0;
@@ -159,7 +168,6 @@ class App {
         });
     
         const uploadButton = document.querySelector('#upload-json-btn');
-        const self = this;
         uploadButton.addEventListener('click', function (e)  {
             const inputFileField = document.querySelector('#upload-data-file-input');
             const file = inputFileField.files[0];
@@ -226,6 +234,12 @@ class App {
         });
         //#endregion
 
+        //#region Кнопка Добавить строку
+        const addRowButton = document.querySelector('#add-input-row-btn');
+        addRowButton.addEventListener('click', (e) => {
+            self.addEmptyInputRow();
+        });
+        //#endregion
     }
 
 }
