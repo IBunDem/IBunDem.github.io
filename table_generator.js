@@ -20,14 +20,6 @@ class InputTable {
     idSpan.classList.add("input-group-text");
     idSpan.textContent = id != undefined ? id : number;
 
-    const inputCode = document.createElement("input");
-    inputCode.classList.add("form-control");
-    inputCode.id = "input_code_" + number;
-    inputCode.placeholder = "Код";
-    inputCode.addEventListener("change", function (e) {
-      const value = e.target.value;
-      self.data.rows[number].code = value;
-    });
 
     const inputName = document.createElement("input");
     inputName.classList.add("form-control");
@@ -54,6 +46,32 @@ class InputTable {
       const value = +e.target.value;
       self.data.rows[number].cost = value;
       displayFullCost.value = value * ORDER_VOLUME;
+    });
+    
+    const inputCode = document.createElement("input");
+    inputCode.classList.add("form-control");
+    inputCode.id = "input_code_" + number;
+    inputCode.placeholder = "Код";
+    inputCode.addEventListener("change", function (e) {
+      const value = e.target.value;
+      self.data.rows[number].code = value;
+
+        // При изменении поля code нужно найти его в каталоге
+        // и заполнить поля name и cost по каталогу
+        let catalogRow = catalog.filter((x) => x.code == value);
+        if (catalogRow.length == 0) {
+            console.log('Not found any rows');
+
+            return;
+        }
+        console.log('found row: ');
+        console.log(catalogRow.code);
+        console.log(catalogRow.name);
+        console.log(catalogRow.cost);
+
+        catalogRow = catalogRow[0];
+        setInputValue(inputName, catalogRow.name);
+        setInputValue(inputCost, catalogRow.cost);
     });
 
     const inputGroup = document.createElement("div");
