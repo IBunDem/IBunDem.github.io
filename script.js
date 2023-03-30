@@ -80,16 +80,17 @@ class App {
     calculate() {
         var r = this.data.results;
         var vars = this.data.vars;
-        var rowsCount = this.table.rowsCount;
+        // берём только строки, где цена заполнена
+        var rowsCount = this.data.rows.filter((r) => Boolean(r) && Boolean(r.cost)).length;
         
         //#region Первая таблица
         // Стоимость закупа парфюмов
-        r.resultCost = 0   
-        //TODO 
-        // for (const [i, row] of Object.entries(perfumTableData.inputTable)) {
-        //     if (!row.cost) continue;
-        //     r.resultCost += row.cost;
-        // }
+        r.resultCost = 0 
+        this.data.rows.forEach((row) => {
+            if (!row.cost) return;
+            r.resultCost += row.cost;
+        });
+        
         // умножаем сумму стоимости 1 мл всех парфюмов на объем закупа (50мл по стандарту)
         r.resultCost *= ORDER_VOLUME;
         displayToElement('result-cost', r.resultCost);
@@ -130,7 +131,7 @@ class App {
 
         //#region Вторая таблица
         // Себестоимость 1 флакона
-        r.selfCost = (vars.deliveryCost + r.resultCost + r.costBottle + r.costTester + r.diluentCost + vars.brandCost) / r.countBottle;
+        r.selfCost = Math.ceil((vars.deliveryCost + r.resultCost + r.costBottle + r.costTester + r.diluentCost + vars.brandCost) / r.countBottle);
         displayToElement('result-selfcost', r.selfCost);
 
         // Сумарно затрат
