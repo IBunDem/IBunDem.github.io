@@ -58,18 +58,11 @@ class InputTable {
 
         // При изменении поля code нужно найти его в каталоге
         // и заполнить поля name и cost по каталогу
-        let catalogRow = catalog.filter((x) => x.code == value);
-        if (catalogRow.length == 0) {
-            console.log('Not found any rows');
-
-            return;
-        }
-        console.log('found row: ');
-        console.log(catalogRow.code);
-        console.log(catalogRow.name);
-        console.log(catalogRow.cost);
-
+        const lowerCaseValue= value.toLowerCase();
+        let catalogRow = catalog.filter((x) => x.code.toLowerCase() == lowerCaseValue);
         catalogRow = catalogRow[0];
+        if(!catalogRow) return;
+
         setInputValue(inputName, catalogRow.name);
         setInputValue(inputCost, catalogRow.cost);
     });
